@@ -1,27 +1,29 @@
 
-const wrapper = document.querySelector('#wrapper');
+import {Howl, Howler} from 'howler';
+let audio = null;
 
+const load = ()=>{
+     audio = new Howl({
+        src: 'popup.mp3',
+        autoplay : false
+    })
+        .on('load', () => {
+            console.log(`+++ loaded`);
+        })
+        .on('loaderror', (id, message) => {
+            console.log(`+++ error -> ${message}`);
+        });
+}
 
-
-function createSelect(data = []){
-    const select1 = document.createElement('select');
-
-    for (const op of data){
-        const option = document.createElement('option');
-        option.value = op;
-        option.text = op;
-        select1.appendChild(option);
-    }
-    return select1
+const play = ()=>{
+    audio.play()
 }
 
 
-const select1 = createSelect(['option_1']);
-const select2 = createSelect(Array.from(new Array(10), (_,i)=>{return `option_${i+1}`}));
+/////////
+load()
 
-wrapper.appendChild(select1);
-wrapper.appendChild(select2);
+document.querySelector('#btn').addEventListener('click', ()=>{
+    play();
+})
 
-
-select1.disabled = true;
-select2.autofocus = true;
